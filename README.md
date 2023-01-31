@@ -6,7 +6,7 @@ You are required to fill out all of the following sections to help us grade your
 
 ## Student (to be completed individually)
 
-* First Last, x500@umn.edu
+- Youfu Yan, yan00111@umn.edu
 
 ## Link to Site
 
@@ -14,8 +14,8 @@ You are required to fill out all of the following sections to help us grade your
 
 ## Challenge Task
 
-* I started the challenge task: [yes/no]
-* I completed the challenge task: [yes/no]
+- I started the challenge task: [yes/no]
+- I completed the challenge task: [yes/no]
 
 (if applicable) link: <https://TODO.com/admin/summary>
 

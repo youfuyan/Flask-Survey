@@ -22,3 +22,8 @@ You are required to fill out all of the following sections to help us grade your
 ## Any Extra Notes?
 
 Fill in this with anything else you would like us to know about your submission.
+
+## Steps
+
+1. Install the dependencies
+   `pipenv install flask psycopg2 psycopg2-binary flask-sqlalchemy`

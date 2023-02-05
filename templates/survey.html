@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <title>Please Rate the Breeder</title>
+  </head>
+  <body>
+    <div class="container">
+      <img src="../static/logo.gif" alt="Husky" , class="logo" />
+      {% if message %}
+      <p class="message">{{ message | safe}}</p>
+      {% endif %}
+      <h1>Breeder Service Survey</h1>
+      <p>
+        Thank you for accepting the survey consent. Please answer the following
+        questions:
+      </p>
+      <form action="/survey" method="POST">
+        <div class="form-group">
+          <h3>Customer Name</h3>
+          <input
+            type="text"
+            name="customer"
+            placeholder="Name of Husky owner"
+          />
+        </div>
+        <div class="form-group">
+          <h3>Breeder</h3>
+          <select name="breeder">
+            <option value="">Select Breeder</option>
+            <option value="Echoing Wind Siberians">
+              Echoing Wind Siberians
+            </option>
+            <option value="Cascade Siberians">Cascade Siberians</option>
+            <option value="Antler Creek Siberians">
+              Antler Creek Siberians
+            </option>
+            <option value="Bruck's Siberian Huskies">
+              Bruck's Siberian Huskies
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <h3>Please rate your breeder</h3>
+          <input type="radio" name="rating" value="1" /> 1
+          <input type="radio" name="rating" value="2" /> 2
+          <input type="radio" name="rating" value="3" /> 3
+          <input type="radio" name="rating" value="4" /> 4
+          <input type="radio" name="rating" value="5" /> 5
+          <input type="radio" name="rating" value="6" /> 6
+          <input type="radio" name="rating" value="7" /> 7
+          <input type="radio" name="rating" value="8" /> 8
+          <input type="radio" name="rating" value="9" /> 9
+          <input type="radio" name="rating" value="10" checked /> 10
+        </div>
+        <div class="form-group">
+          <h3>Comments about your experience</h3>
+          <textarea
+            name="comments"
+            id=""
+            cols="30"
+            rows="10"
+            placeholder="Please tell us what you liked and/or did not like"
+          ></textarea>
+        </div>
+        <input type="submit" value="Submit" class="btn" />
+      </form>
+    </div>
+  </body>
+</html>

@@ -3,7 +3,33 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+ENV = 'dev'
 
+if ENV == 'dev':
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:QWER333666@localhost:5432/husky'
+else:
+    app.debug = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+db = SQLAlchemy(app)
+
+class Summary(db.Model):
+    __tablename__ = 'summary'
+    id = db.Column(db.Integer, primary_key=True)
+    customer = db.Column(db.String(200), unique=True)
+    breeder = db.Column(db.String(200))
+    rating = db.Column(db.Integer)
+    comments = db.Column(db.String(200))
+
+    def __init__(self, customer, breeder, rating, comments):
+        self.customer = customer
+        self.breeder = breeder
+        self.rating = rating
+        self.comments = comments
 
 @app.route("/")
 def index():
@@ -26,7 +52,7 @@ def survey():
         if customer == '' or breeder == '':
             return render_template('survey.html', message='Please enter required fields')
         else:
-            return render_template('thanks.html')
+            return render_template('thanks.html', breeder=breeder)
     return render_template('survey.html')
 
 @app.route('/decline')
@@ -45,4 +71,4 @@ def thanks():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

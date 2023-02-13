@@ -1,12 +1,11 @@
-from flask import Flask, jsonify, render_template, redirect, url_for, request
+from flask import *
 import psycopg2, os
-
+import json
 
 app = Flask(__name__)
 
 # DATABASE_URL = os.environ.get("DATABASE_URL")
-DATABASE_URL = "postgres://youfuyan:@localhost/husky"
-conn = psycopg2.connect(DATABASE_URL)
+conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
 
 
 def insert_survey_responses(customer, breeder, rating, recommend, comments):

@@ -4,10 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
 psycopg2-binary = "*"
-flask-sqlalchemy = "*"
 gunicorn = "*"
+psycopg2 = "*"
+flask = ">=2.0.3"
+
 
 [dev-packages]
 

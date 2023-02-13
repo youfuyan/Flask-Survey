@@ -5,10 +5,10 @@ import json
 app = Flask(__name__)
 
 # DATABASE_URL = os.environ.get("DATABASE_URL")
-conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
 
 
 def insert_survey_responses(customer, breeder, rating, recommend, comments):
+    conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO survey_responses (customer, breeder, rating, recommend, comments) VALUES (%s, %s, %s, %s, %s)",
@@ -16,6 +16,7 @@ def insert_survey_responses(customer, breeder, rating, recommend, comments):
     )
     conn.commit()
     cur.close()
+    conn.close()
 
 
 @app.route("/")
@@ -62,6 +63,37 @@ def thanks():
         rating=rating,
         comments=comments,
     )
+
+
+@app.route("/api/results")
+def results():
+    # Connect to the database and retrieve the survey results
+    conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
+    cur = conn.cursor()
+
+    order = "ASC" if request.args.get("reverse") != "true" else "DESC"
+    cur.execute(f"SELECT * FROM survey_responses ORDER BY id {order}")
+    results = cur.fetchall()
+
+    # Convert the results to a list of dictionaries
+    results_list = [
+        {
+            "id": r[0],
+            "customer": r[1],
+            "breeder": r[2],
+            "rating": r[3],
+            "recommend": r[4],
+            "comments": r[5],
+        }
+        for r in results
+    ]
+
+    # Close the database connection
+    cur.close()
+    conn.close()
+
+    # Return the results as JSON
+    return jsonify(results_list)
 
 
 # @app.route("/api/facts", methods=["GET"])

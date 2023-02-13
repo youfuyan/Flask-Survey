@@ -4,12 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+      integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
+    />
     <link rel="stylesheet" href="../static/style.css" />
     <title>Please Rate the Breeder</title>
   </head>
   <body>
-    <div class="container">
-      <img src="../static/logo.gif" alt="Husky" , class="logo" />
+    <div>
+      <img
+        class="pure-img"
+        src="../static/logo.gif"
+        alt="Husky"
+        ,
+        class="logo"
+      />
       {% if message %}
       <p class="message">{{ message | safe}}</p>
       {% endif %}
@@ -18,73 +34,83 @@
         Thank you for accepting the survey consent. <br />
         Please answer the following questions:
       </p>
-      <form action="/survey" method="POST">
-        <div class="form-group">
-          <h3>Customer Name</h3>
-          <input
-            type="text"
-            name="customer"
-            placeholder="Name of Husky owner"
-          />
-        </div>
-        <div class="form-group">
-          <h3>Breeder</h3>
-          <select name="breeder">
-            <option value="">Select Breeder</option>
-            <option value="Echoing Wind Siberians">
-              Echoing Wind Siberians
-            </option>
-            <option value="Cascade Siberians">Cascade Siberians</option>
-            <option value="Antler Creek Siberians">
-              Antler Creek Siberians
-            </option>
-            <option value="Bruck's Siberian Huskies">
-              Bruck's Siberian Huskies
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <h3>Please rate your breeder</h3>
-          <input type="radio" name="rating" value="1" /> 1
-          <input type="radio" name="rating" value="2" /> 2
-          <input type="radio" name="rating" value="3" /> 3
-          <input type="radio" name="rating" value="4" /> 4
-          <input type="radio" name="rating" value="5" /> 5
-          <input type="radio" name="rating" value="6" /> 6
-          <input type="radio" name="rating" value="7" /> 7
-          <input type="radio" name="rating" value="8" /> 8
-          <input type="radio" name="rating" value="9" /> 9
-          <input type="radio" name="rating" value="10" checked /> 10
-        </div>
-        <div class="form-group">
-          <h3>Would you recommend this breeder to others?</h3>
-          <input type="radio" name="recommend" value="Yes" checked /> Yes
-          <input type="radio" name="recommend" value="No" /> No
-        </div>
-        <div class="form-group">
-          <label for="comments">
-            <h3>(Conditional) Any comments about your experence?</h3></label
-          >
-          <input
-            type="checkbox"
-            id="conditionalQuestion"
-            name="conditionalQuestion"
-            onchange="showTextarea()"
-          />
-        </div>
+      <form class="pure-form pure-form-stacked" action="/survey" method="POST">
+        <fieldset>
+          <div class="pure-control-group">
+            <h3>Customer Name</h3>
+            <input
+              type="text"
+              name="customer"
+              placeholder="Name of Husky owner"
+            />
+            <span class="pure-form-message">This is a required field.</span>
+          </div>
+          <div class="pure-control-group">
+            <h3>Breeder</h3>
+            <select name="breeder">
+              <option value="">Select Breeder</option>
+              <option value="Echoing Wind Siberians">
+                Echoing Wind Siberians
+              </option>
+              <option value="Cascade Siberians">Cascade Siberians</option>
+              <option value="Antler Creek Siberians">
+                Antler Creek Siberians
+              </option>
+              <option value="Bruck's Siberian Huskies">
+                Bruck's Siberian Huskies
+              </option></select
+            ><span class="pure-form-message">This is a required field.</span>
+          </div>
+          <div class="pure-control-group">
+            <h3>Please rate your breeder</h3>
+            <input type="radio" name="rating" value="1" /> 1
+            <input type="radio" name="rating" value="2" /> 2
+            <input type="radio" name="rating" value="3" /> 3
+            <input type="radio" name="rating" value="4" /> 4
+            <input type="radio" name="rating" value="5" /> 5
+            <input type="radio" name="rating" value="6" /> 6
+            <input type="radio" name="rating" value="7" /> 7
+            <input type="radio" name="rating" value="8" /> 8
+            <input type="radio" name="rating" value="9" /> 9
+            <input type="radio" name="rating" value="10" checked /> 10
+          </div>
 
-        <div class="form-group">
-          <textarea
+
+            <h3>Would you recommend this breeder to others?</h3>
+            <input type="radio" name="recommend" value="Yes" checked /> Yes
+            <input type="radio" name="recommend" value="No" /> No
+          </div>
+          <div class="pure-control-group">
+            <label for="comments">
+              <h3>(Conditional) Any comments about your experence?</h3></label
+            >
+            <input
+              type="checkbox"
+              id="conditionalQuestion"
+              name="conditionalQuestion"
+              onchange="showTextarea()"
+            />  Yes, I want to tell more about my experience.
+          </div>
+
+          <div class="pure-control-group">
+            <textarea
             name="comments"
             id="comments"
-            cols="30"
             rows="10"
             placeholder="Please tell us what you liked and/or did not like"
             style="display: none"
           ></textarea>
-        </div>
-
-        <input type="submit" value="Submit" class="btn" />
+          </div>
+<br><br>
+          <div class="pure-control-group">
+          <input
+            class="pure-button pure-button-primary"
+            type="submit"
+            value="Submit"
+            class="btn"
+          />
+          </div>
+        </fieldset>
       </form>
     </div>
   </body>

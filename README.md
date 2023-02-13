@@ -26,4 +26,5 @@ Fill in this with anything else you would like us to know about your submission.
 ## Steps
 
 1. Install the dependencies
-   `pipenv install flask psycopg2 psycopg2-binary flask-sqlalchemy`
+   `pipenv shell`
+   `pipenv install`

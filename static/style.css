@@ -19,6 +19,7 @@ body {
 }
 
 h1 {
+  text-align: center;
   color: #777;
   margin-top: 15px;
 }
@@ -68,4 +69,8 @@ textarea {
   cursor: pointer;
   outline: none;
   margin-top: 1rem;
+}
+p {
+  text-align: center;
+  margin: 1rem 0;
 }

@@ -1,11 +1,11 @@
-create table facts (
-    id serial primary key,
-    source text
-    content text
+CREATE TABLE survey_responses (
+  id SERIAL PRIMARY KEY,
+  customer TEXT NOT NULL,
+  breeder TEXT NOT NULL,
+  rating INTEGER NOT NULL,
+  recommend BOOLEAN,
+  comments TEXT,
+  timestamp TIMESTAMP DEFAULT NOW()
 );
 
-create table bad_way_to_do_user (
-    id serial primary key,
-    username text,
-    password text
-);
+ALTER TABLE survey_responses ADD CONSTRAINT unique_customer UNIQUE (customer);

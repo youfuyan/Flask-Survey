@@ -1,38 +1,22 @@
 from flask import Flask, jsonify, render_template, redirect, url_for, request
 import psycopg2, os
 
-# from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# ENV = 'dev'
-
-# if ENV == 'dev':
-#     app.debug = True
-#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:QWER333666@localhost:5432/husky'
-# else:
-#     app.debug = False
-#     app.config['SQLALCHEMY_DATABASE_URI'] = ''
-
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = "postgres://youfuyan:@localhost/husky"
+conn = psycopg2.connect(DATABASE_URL)
 
 
-# db = SQLAlchemy(app)
-
-
-# class Summary(db.Model):
-#     __tablename__ = 'summary'
-#     id = db.Column(db.Integer, primary_key=True)
-#     customer = db.Column(db.String(200), unique=True)
-#     breeder = db.Column(db.String(200))
-#     rating = db.Column(db.Integer)
-#     comments = db.Column(db.String(200))
-
-#     def __init__(self, customer, breeder, rating, comments):
-#         self.customer = customer
-#         self.breeder = breeder
-#         self.rating = rating
-#         self.comments = comments
+def insert_survey_responses(customer, breeder, rating, recommend, comments):
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO survey_responses (customer, breeder, rating, recommend, comments) VALUES (%s, %s, %s, %s, %s)",
+        (customer, breeder, rating, recommend, comments),
+    )
+    conn.commit()
+    cur.close()
 
 
 @app.route("/")
@@ -42,23 +26,19 @@ def index():
 
 @app.route("/survey", methods=["GET", "POST"])
 def survey():
-    # if request.method == 'POST':
-    #     if not request.form.get('text_input') or len(request.form.get('text_input')) < 3:
-    #         return render_template('survey.html', error='Text input is required and must have a minimum length of 3 characters.')
-    #     else:
-    #         return render_template('thanks.html')
-    # return render_template('survey.html')
     if request.method == "POST":
         customer = request.form.get("customer")
         breeder = request.form.get("breeder")
         rating = request.form.get("rating")
+        recommend = request.form.get("recommend")
         comments = request.form.get("comments")
-        print(customer, breeder, rating, comments)
+        print(customer, breeder, rating, recommend, comments)
         if customer == "" or breeder == "":
             return render_template(
                 "survey.html", message="Please enter required fields"
             )
         else:
+            insert_survey_responses(customer, breeder, rating, recommend, comments)
             return render_template("thanks.html", breeder=breeder)
     return render_template("survey.html")
 
@@ -85,15 +65,15 @@ def thanks():
     )
 
 
-@app.route("/api/facts", methods=["GET"])
-def get_random_fact():
-    return jsonify({"id": 1, "source": " my brain", "content": "Husky is cute"})
+# @app.route("/api/facts", methods=["GET"])
+# def get_random_fact():
+#     return jsonify({"id": 1, "source": " my brain", "content": "Husky is cute"})
 
 
-@app.route("/api/facts", methods=["POST"])
-def new_fact():
-    print(request.json)
-    return jsonify("ok")
+# @app.route("/api/facts", methods=["POST"])
+# def new_fact():
+#     print(request.json)
+#     return jsonify("ok")
 
 
 if __name__ == "__main__":

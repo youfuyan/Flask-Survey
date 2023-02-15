@@ -96,15 +96,20 @@ def results():
     return jsonify(results_list)
 
 
-# @app.route("/api/facts", methods=["GET"])
-# def get_random_fact():
-#     return jsonify({"id": 1, "source": " my brain", "content": "Husky is cute"})
+@app.route("/admin/summary")
+def summary():
+    # fetch the results from the database
+    conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM survey_responses")
+    data = cur.fetchall()
 
+    # close the database connection
+    cur.close()
+    conn.close()
 
-# @app.route("/api/facts", methods=["POST"])
-# def new_fact():
-#     print(request.json)
-#     return jsonify("ok")
+    # display data as chart.js chart
+    return render_template("summary.html", data=data)
 
 
 if __name__ == "__main__":

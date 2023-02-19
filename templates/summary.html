@@ -28,34 +28,93 @@
     </table>
     <h1>Response Frequency by Timestamp</h1>
 
-    <canvas id="myChart"></canvas>
+    <canvas id="responseChart"></canvas>
 
-    <!-- bar chart canvas -->
+    <h1>Average Rating by Breeder</h1>
+
+    <canvas id="ratingChart"></canvas>
 
     <!-- pie chart canvas -->
+    <br />
   </body>
 </html>
 
 <script>
-  const ctx = document.getElementById('myChart');
+  // Get the canvas element
+    var ctx = document.getElementById("responseChart").getContext("2d");
 
-  new Chart(ctx, {
-    type: 'bar',
+    // Get the data from Flask app
+    var timestamps = {{ timestamps|tojson }};
+    var counts = {{ counts|tojson }};
+    console.log(timestamps);
+    console.log(counts);
+
+    // Create the bar chart
+    var myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: timestamps,
+        datasets: [
+          {
+            label: "Response Frequency",
+            data: counts,
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+</script>
+
+<script>
+  // Get the canvas element
+  var ctx = document.getElementById("ratingChart").getContext("2d");
+
+  // Get the data from Flask app
+  var breeders = {{ breeders|tojson }};
+  var ratings = {{ ratings|tojson }};
+
+  // Create the bar chart
+  var myChart = new Chart(ctx, {
+    type: "bar",
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: breeders,
       datasets: [
         {
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          label: "Average Rating",
+          data: ratings,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
         },
       ],
     },
     options: {
       scales: {
-        y: {
-          beginAtZero: true,
-        },
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+              stepSize: 1, // set the step size to 1
+              callback: function (value) {
+                return value.toString();
+              },
+            },
+          },
+        ],
       },
     },
   });

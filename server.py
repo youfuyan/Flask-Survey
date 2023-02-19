@@ -103,13 +103,41 @@ def summary():
     cur = conn.cursor()
     cur.execute("SELECT * FROM survey_responses")
     data = cur.fetchall()
+    cur.execute(
+        "SELECT breeder, ROUND(AVG(rating), 2) AS average_rating FROM survey_responses GROUP BY breeder"
+    )
+    data2 = cur.fetchall()
 
     # close the database connection
     cur.close()
     conn.close()
 
-    # display data as chart.js chart
-    return render_template("summary.html", data=data)
+    # Parse the data to create an array of timestamps and an array of counts for each timestamp
+    timestamps = []
+    counts = []
+    for row in data:
+        timestamp = row[6].strftime("%Y-%m-%d")
+        if timestamp in timestamps:
+            index = timestamps.index(timestamp)
+            counts[index] += 1
+        else:
+            timestamps.append(timestamp)
+            counts.append(1)
+    print(timestamps)
+    print(counts)
+
+    # Parse the data to create an array of breeders and an array of ratings
+    breeders = [row[0] for row in data2]
+    ratings = [row[1] for row in data2]
+
+    return render_template(
+        "summary.html",
+        data=data,
+        timestamps=timestamps,
+        counts=counts,
+        breeders=breeders,
+        ratings=ratings,
+    )
 
 
 if __name__ == "__main__":

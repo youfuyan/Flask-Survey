@@ -224,7 +224,7 @@
 
   var breeder2Data = {{ breeder2_data | tojson }};
   var breeder2Data = [breeder2Data];
-
+  var colors = ['blue', 'yellow'];
 
   var data2 = [];
   var labels2 = [];
@@ -235,7 +235,7 @@
     var count21 = breeder2[0].count;
     labels2.push(label21);
     data2.push(count21);
-    var label22 = breeder2[1].recommend === false ? 'Yes' : 'No';
+    var label22 = breeder2[1].recommend === true ? 'Yes' : 'No';
     var count22 = breeder2[1].count;
     labels2.push(label22);
     data2.push(count22);
@@ -261,7 +261,7 @@
 
   var breeder3Data = {{ breeder3_data | tojson }};
   var breeder3Data = [breeder3Data];
-
+  var colors = ['purple', 'orange'];
 
   var data3 = [];
   var labels3 = [];
@@ -272,7 +272,7 @@
     var count31 = breeder3[0].count;
     labels3.push(label31);
     data3.push(count31);
-    var label32 = breeder3[1].recommend === false ? 'Yes' : 'No';
+    var label32 = breeder3[1].recommend === true ? 'Yes' : 'No';
     var count32 = breeder3[1].count;
     labels3.push(label32);
     data3.push(count32);
@@ -298,7 +298,7 @@
 
   var breeder4Data = {{ breeder4_data | tojson }};
   var breeder4Data = [breeder4Data];
-
+  var colors = ['pink', 'brown'];
 
   var data4 = [];
   var labels4 = [];
@@ -309,7 +309,7 @@
     var count41 = breeder4[0].count;
     labels4.push(label41);
     data4.push(count41);
-    var label42 = breeder4[1].recommend === false ? 'Yes' : 'No';
+    var label42 = breeder4[1].recommend === true ? 'Yes' : 'No';
     var count42 = breeder4[1].count;
     labels4.push(label42);
     data4.push(count42);

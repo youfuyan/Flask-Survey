@@ -103,10 +103,16 @@ def summary():
     cur = conn.cursor()
     cur.execute("SELECT * FROM survey_responses")
     data = cur.fetchall()
+    # fetch the average ratings from the database
     cur.execute(
         "SELECT breeder, ROUND(AVG(rating), 2) AS average_rating FROM survey_responses GROUP BY breeder"
     )
     data2 = cur.fetchall()
+    # fetch the recommendations from the database
+    cur.execute(
+        "SELECT breeder, recommend, COUNT(*) FROM survey_responses GROUP BY breeder, recommend"
+    )
+    recommend_data = cur.fetchall()
 
     # close the database connection
     cur.close()
@@ -123,12 +129,35 @@ def summary():
         else:
             timestamps.append(timestamp)
             counts.append(1)
-    print(timestamps)
-    print(counts)
+    # print(timestamps)
+    # print(counts)
 
     # Parse the data to create an array of breeders and an array of ratings
     breeders = [row[0] for row in data2]
     ratings = [row[1] for row in data2]
+
+    # Parse the data to create an array of breeders and an array of recommendations
+    # Separate the data into four arrays, one for each breeder
+    breeder1_data = []
+    breeder2_data = []
+    breeder3_data = []
+    breeder4_data = []
+    for row in recommend_data:
+        breeder = row[0]
+        recommend = row[1]
+        count = row[2]
+        if breeder == "Echoing Wind Siberians":
+            breeder1_data.append({"recommend": recommend, "count": count})
+        elif breeder == "Cascade Siberians":
+            breeder2_data.append({"recommend": recommend, "count": count})
+        elif breeder == "Antler Creek Siberians":
+            breeder3_data.append({"recommend": recommend, "count": count})
+        elif breeder == "Bruck's Siberian Huskies":
+            breeder4_data.append({"recommend": recommend, "count": count})
+    print(breeder1_data)
+    print(breeder2_data)
+    print(breeder3_data)
+    print(breeder4_data)
 
     return render_template(
         "summary.html",
@@ -137,6 +166,10 @@ def summary():
         counts=counts,
         breeders=breeders,
         ratings=ratings,
+        breeder1_data=breeder1_data,
+        breeder2_data=breeder2_data,
+        breeder3_data=breeder3_data,
+        breeder4_data=breeder4_data,
     )
 
 

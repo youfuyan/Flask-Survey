@@ -26,15 +26,34 @@
       </tr>
       {% endfor %}
     </table>
+    <!-- time series chart -->
+
     <h1>Response Frequency by Timestamp</h1>
 
-    <canvas id="responseChart"></canvas>
+    <canvas id="timeChart"></canvas>
 
     <h1>Average Rating by Breeder</h1>
 
     <canvas id="ratingChart"></canvas>
 
     <!-- pie chart canvas -->
+    <h1>Echoing Wind Siberians- Recommendation Ratio</h1>
+
+    <canvas id="Echoing Wind Siberians-breeder-recommend-chart"></canvas>
+
+    <h1>Cascade Siberians- Recommendation Ratio</h1>
+
+    <canvas id="Cascade Siberians-breeder-recommend-chart"></canvas>
+
+    <h1>Antler Creek Siberians- Recommendation Ratio</h1>
+
+    <canvas id="Antler Creek Siberians-breeder-recommend-chart"></canvas>
+
+    <h1>Bruck's Siberian Huskies- Recommendation Ratio</h1>
+
+    <canvas id="Brucks Siberian Huskies-breeder-recommend-chart"></canvas>
+    <canvas id="combined-chart" width="400" height="400"></canvas>
+
     <br />
   </body>
 </html>
@@ -44,10 +63,8 @@
     var ctx = document.getElementById("responseChart").getContext("2d");
 
     // Get the data from Flask app
-    var timestamps = {{ timestamps|tojson }};
-    var counts = {{ counts|tojson }};
-    console.log(timestamps);
-    console.log(counts);
+    var timestamps = {{ timestamps |tojson | safe }};
+    var counts = {{ counts |tojson | safe}};
 
     // Create the bar chart
     var myChart = new Chart(ctx, {
@@ -78,13 +95,57 @@
     });
 </script>
 
+<!-- time series script for average rating by breeder-->
+<script>
+  // Get the canvas element
+  var ctx = document.getElementById("timeChart").getContext("2d");
+
+  // Get the data from Flask app
+  var timestamps = {{ timestamps |tojson | safe }};
+  var counts = {{ counts |tojson | safe}};
+
+  // Create the line chart
+  var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: timestamps,
+      datasets: [
+        {
+          label: "Response Frequency",
+          data: counts,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day'
+          }
+        }],
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+</script>
+
 <script>
   // Get the canvas element
   var ctx = document.getElementById("ratingChart").getContext("2d");
 
   // Get the data from Flask app
-  var breeders = {{ breeders|tojson }};
-  var ratings = {{ ratings|tojson }};
+  var breeders = {{ breeders|tojson |safe }};
+  var ratings = {{ ratings|tojson |safe }};
 
   // Create the bar chart
   var myChart = new Chart(ctx, {
@@ -117,5 +178,158 @@
         ],
       },
     },
+  });
+</script>
+
+<!-- pie chart script for breeder recommendation-->
+<script>
+  var breeder1Data = {{ breeder1_data | tojson }};
+
+
+  var breeder1Data = [breeder1Data];
+  var colors = ['green', 'red'];
+
+  var data1 = [];
+  var labels1 = []
+
+  for (var i = 0; i < breeder1Data.length; i++) {
+    var breeder1 = breeder1Data[i];
+    var label11 = breeder1[0].recommend === true ? 'Yes' : 'No';
+    var count11 = breeder1[0].count;
+    labels1.push(label11);
+    data1.push(count11);
+    var label12 = breeder1[1].recommend === true ? 'Yes' : 'No';
+    var count12 = breeder1[1].count;
+    labels1.push(label12);
+    data1.push(count12);
+  }
+
+  var ctx = document.getElementById('Echoing Wind Siberians-breeder-recommend-chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels1,
+      datasets: [{
+        data: data1,
+        backgroundColor: colors
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Recommendations by Echoing Wind Siberians Breeder'
+      }
+    }
+  });
+
+  var breeder2Data = {{ breeder2_data | tojson }};
+  var breeder2Data = [breeder2Data];
+
+
+  var data2 = [];
+  var labels2 = [];
+
+  for (var i = 0; i < breeder2Data.length; i++) {
+    var breeder2 = breeder2Data[i];
+    var label21 = breeder2[0].recommend === true ? 'Yes' : 'No';
+    var count21 = breeder2[0].count;
+    labels2.push(label21);
+    data2.push(count21);
+    var label22 = breeder2[1].recommend === false ? 'Yes' : 'No';
+    var count22 = breeder2[1].count;
+    labels2.push(label22);
+    data2.push(count22);
+  }
+
+  var ctx = document.getElementById('Cascade Siberians-breeder-recommend-chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels2,
+      datasets: [{
+        data: data2,
+        backgroundColor: colors
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Recommendations by Cascade Siberians Breeder'
+      }
+    }
+  });
+
+  var breeder3Data = {{ breeder3_data | tojson }};
+  var breeder3Data = [breeder3Data];
+
+
+  var data3 = [];
+  var labels3 = [];
+
+  for (var i = 0; i < breeder3Data.length; i++) {
+    var breeder3 = breeder3Data[i];
+    var label31 = breeder3[0].recommend === true ? 'Yes' : 'No';
+    var count31 = breeder3[0].count;
+    labels3.push(label31);
+    data3.push(count31);
+    var label32 = breeder3[1].recommend === false ? 'Yes' : 'No';
+    var count32 = breeder3[1].count;
+    labels3.push(label32);
+    data3.push(count32);
+  }
+
+  var ctx = document.getElementById('Antler Creek Siberians-breeder-recommend-chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels3,
+      datasets: [{
+        data: data3,
+        backgroundColor: colors
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Recommendations by Antler Creek Siberians Breeder'
+      }
+    }
+  });
+
+  var breeder4Data = {{ breeder4_data | tojson }};
+  var breeder4Data = [breeder4Data];
+
+
+  var data4 = [];
+  var labels4 = [];
+
+  for (var i = 0; i < breeder4Data.length; i++) {
+    var breeder4 = breeder4Data[i];
+    var label41 = breeder4[0].recommend === true ? 'Yes' : 'No';
+    var count41 = breeder4[0].count;
+    labels4.push(label41);
+    data4.push(count41);
+    var label42 = breeder4[1].recommend === false ? 'Yes' : 'No';
+    var count42 = breeder4[1].count;
+    labels4.push(label42);
+    data4.push(count42);
+  }
+
+  var ctx = document.getElementById('Brucks Siberian Huskies-breeder-recommend-chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels4,
+      datasets: [{
+        data: data4,
+        backgroundColor: colors
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Recommendations by Brucks Siberian Huskies Breeder'
+      }
+    }
   });
 </script>

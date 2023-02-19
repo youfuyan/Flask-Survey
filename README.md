@@ -10,21 +10,15 @@ You are required to fill out all of the following sections to help us grade your
 
 ## Link to Site
 
-<https://TODO.com/>
+<https://homework1-youfuyan.onrender.com/>
 
 ## Challenge Task
 
-- I started the challenge task: [yes/no]
-- I completed the challenge task: [yes/no]
+- I started the challenge task: [yes]
+- I completed the challenge task: [yes]
 
-(if applicable) link: <https://TODO.com/admin/summary>
+link: <https://homework1-youfuyan.onrender.com/admin/summary>
 
 ## Any Extra Notes?
 
-Fill in this with anything else you would like us to know about your submission.
-
-## Steps
-
-1. Install the dependencies
-   `pipenv shell`
-   `pipenv install`
+No
